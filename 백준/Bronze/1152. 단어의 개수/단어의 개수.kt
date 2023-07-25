@@ -1,0 +1,1 @@
+fun main()=print(readln().trim().split(' ').takeIf{it.firstOrNull()?.isNotEmpty()==true}?.size?:0)
