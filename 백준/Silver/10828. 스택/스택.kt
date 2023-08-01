@@ -1,4 +1,4 @@
-import java.util.LinkedList
+import java.util.Stack
 
 fun main() {
     val commandCnt = readln().toInt()
@@ -8,32 +8,20 @@ fun main() {
         val option = readLine.getOrNull(1)?.toInt()
         exec to option
     }
-    val stack = LinkedList<String>()
-
-    commands.forEach {
-        val (exec, option) = it
-        when(exec) {
-            "push" -> stack.addLast(option!!.toString())
-            "pop" -> {
-                if(stack.isEmpty())
-                    println(-1)
-                else {
-                    println(stack.removeLast())
-                }
-            }
-            "size" -> println(stack.size)
-            "empty" -> {
-                if(stack.isEmpty())
-                    println(1)
-                else
-                    println(0)
-            }
-            "top" -> {
-                if(stack.isEmpty())
-                    println(-1)
-                else
-                    println(stack.last)
+    val stack = Stack<String>()
+    commands
+        .map {
+            val (exec, option) = it
+            when (exec) {
+                "push" -> stack.push(option!!.toString()).run { "" }
+                "pop" -> if (stack.isEmpty()) "-1" else stack.pop()
+                "size" -> stack.size.toString()
+                "empty" -> if (stack.isEmpty()) 1.toString() else 0.toString()
+                "top" -> if (stack.isEmpty()) (-1).toString() else stack.peek()
+                else -> ""
             }
         }
-    }
+        .filter { it != "" }
+        .joinToString("\n")
+        .also { println(it) }
 }
