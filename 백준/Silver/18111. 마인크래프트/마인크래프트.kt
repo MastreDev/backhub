@@ -2,10 +2,10 @@ import kotlin.math.absoluteValue
 
 fun main() {
     val (n, m, b) = readln().split(" ").map(String::toInt)
+    var allBlock = b
     val map = Array(n) {
-        readln().split(" ").map(String::toInt).toIntArray()
+        readln().split(" ").map(String::toInt).toIntArray().also { allBlock += it.sum()}
     }
-    val allBlock = b + map.sumOf { it.sum() }
     val maxTargetHeight = allBlock / (n * m)
     var minSeconds = Int.MAX_VALUE
     var floor = 0
@@ -21,7 +21,7 @@ fun main() {
                 } else if (gapBlock < 0) {
                     time += (gapBlock.absoluteValue * 2)
                 }
-                if(time > minSeconds) break@stop  
+                if(time > minSeconds) break@stop
             }
         }
         if(minSeconds >= time){
