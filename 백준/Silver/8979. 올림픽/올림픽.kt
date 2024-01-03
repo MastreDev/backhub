@@ -1,9 +1,9 @@
 fun main() {
     class Result(
         val countryCode: Int,
-        val gold: Int,
-        val silver: Int,
-        val bronze: Int
+        val gold: Long,
+        val silver: Long,
+        val bronze: Long
     ) : Comparable<Result> {
 
         override fun compareTo(other: Result): Int {
@@ -29,17 +29,24 @@ fun main() {
         }
 
         override fun hashCode(): Int {
-            var result = gold
-            result = 31 * result + silver
-            result = 31 * result + bronze
+            var result = gold.hashCode()
+            result = 31 * result + silver.hashCode()
+            result = 31 * result + bronze.hashCode()
             return result
         }
+
     }
 
     val (n, k) = readln().split(" ").map(String::toInt)
-    val board = Array(n) { readln().split(" ").map(String::toInt).let { Result(it[0], it[1], it[2], it[3]) } }
-    val rank = board.groupBy { it }
+    val board = Array(n) { readln().split(" ").map(String::toLong).let { Result(it[0].toInt(), it[1], it[2], it[3]) } }
+    val rank = board.groupingBy { it }.eachCount()
     val target = board.first { it.countryCode == k }
 
-    rank.keys.sortedDescending().indexOf(target).also { println(it + 1) }
+    val ranking = rank.keys.sortedDescending()
+    var result = 1
+    for (i in ranking.indices) {
+        if (ranking[i] == target) break
+        result += rank[ranking[i]]!!
+    }
+    println(result)
 }
