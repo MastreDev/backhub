@@ -1,5 +1,4 @@
-import java.util.LinkedList
-import java.util.Queue
+import java.util.*
 
 fun main() {
     val (n, w, l) = readln().split(" ").map(String::toInt)
@@ -9,12 +8,7 @@ fun main() {
 
     while (trucks.isNotEmpty()) {
         if (bridge.size >= w) bridge.poll()!!
-        if (bridge.sum() + trucks.peek()!! <= l) {
-            bridge.add(trucks.poll()!!)
-        } else {
-            bridge.add(0)
-        }
-
+        bridge.add(0.takeIf{bridge.sum() + trucks.peek()!! > l} ?: trucks.poll()!!)
         takenTime++
     }
 
