@@ -3,7 +3,7 @@ fun main() {
     val (n, k) = readln().split(" ").map(String::toInt)
     val array = readln().split(" ").map(String::toInt).toIntArray()
     val temp = IntArray(array.size)
-    
+
     var saveCount = 0
     val history = hashMapOf<Int, Int>()
 
@@ -39,7 +39,6 @@ fun main() {
         mergeSort(array, p, q)
         mergeSort(array, q + 1, r)
         merge(array, p, q, r)
-        if(history.size >= k) return
     }
 
     mergeSort(array)
