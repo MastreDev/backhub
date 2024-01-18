@@ -1,10 +1,11 @@
 fun main() {
-    val n = readln()
-    var conversion = n
+    var n = readln()
     var count = 0
-    while (conversion.length > 1) {
-        conversion = conversion.toList().map(Char::digitToInt).sum().toString()
+    while (n.length > 1) {
+        var sum = 0
+        n.forEach { sum += it.code - 48 }
+        n = sum.toString()
         count++
     }
-    println("$count\n${"YES".takeIf { conversion.toInt() % 3 == 0 } ?: "NO"}")
+    println("$count\n${"YES".takeIf { n.toInt() % 3 == 0 } ?: "NO"}")
 }
