@@ -29,22 +29,30 @@ fun main() {
         var direction = 0
         val current = arrayOf(0, 0)
         val commands = testCases[i].toCollection(LinkedList())
-        val footPrint = mutableListOf(0 to 0)
+        val widths = arrayOf(0, 0)
+        val heights = arrayOf(0, 0)
         while (commands.isNotEmpty()) {
-            val command = commands.poll()!!
-            when (command) {
+            when (commands.poll()!!) {
                 'F' -> {
                     val dPoint = directions[direction]
                     current[0] += dPoint[1][0]
                     current[1] += dPoint[0][0]
-                    footPrint.add(current[0] to current[1])
+                    widths[0] = minOf(widths[0], current[1])
+                    widths[1] = maxOf(widths[1], current[1])
+
+                    heights[0] = minOf(heights[0], current[0])
+                    heights[1] = maxOf(heights[1], current[0])
                 }
 
                 'B' -> {
                     val dPoint = directions[direction]
                     current[0] += dPoint[1][1]
                     current[1] += dPoint[0][1]
-                    footPrint.add(current[0] to current[1])
+                    widths[0] = minOf(widths[0], current[1])
+                    widths[1] = maxOf(widths[1], current[1])
+
+                    heights[0] = minOf(heights[0], current[0])
+                    heights[1] = maxOf(heights[1], current[0])
                 }
 
                 'L' -> direction = 3.takeIf { direction == 0 } ?: (direction - 1)
@@ -52,14 +60,8 @@ fun main() {
                 'R' -> direction = 0.takeIf { direction == 3 } ?: (direction + 1)
             }
         }
-        val maxWidth = footPrint.maxOf { it.second }
-        val minWidth = footPrint.minOf { it.second }
-
-        val maxHeight = footPrint.maxOf { it.first }
-        val minHeight = footPrint.minOf { it.first }
-
-        val rW = maxWidth - minWidth
-        val rH = maxHeight - minHeight
+        val rW = widths[1] - widths[0]
+        val rH = heights[1] - heights[0]
         results.add(rW.times(rH).absoluteValue)
     }
     println(results.joinToString("\n"))
