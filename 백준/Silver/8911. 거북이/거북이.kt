@@ -1,25 +1,27 @@
 import java.util.LinkedList
+import java.util.Queue
 import kotlin.math.absoluteValue
 
 private val br = System.`in`.bufferedReader()
 private val bw = System.out.bufferedWriter()
 
 fun main() {
+    val turtle = Turtle()
     repeat(br.readLine().toInt()) {
-        bw.write("${Turtle(br.readLine()).simulate()}\n")
+        bw.write("${turtle.simulate(br.readLine().toCollection(LinkedList()))}\n")
     }
     bw.close()
     br.close()
 }
 
-class Turtle(private val orders: String) {
-    private var direction = 0
-    private val current = arrayOf(0, 0)
-    private val commands = orders.toCollection(LinkedList())
-    private val widths = arrayOf(0, 0)
-    private val heights = arrayOf(0, 0)
+class Turtle {
 
-    fun simulate(): Int {
+    fun simulate(commands: Queue<Char>): Int {
+        var direction = 0
+        val current = arrayOf(0, 0)
+        val widths = arrayOf(0, 0)
+        val heights = arrayOf(0, 0)
+
         while (commands.isNotEmpty()) {
             when (commands.poll()!!) {
                 'F' -> {
