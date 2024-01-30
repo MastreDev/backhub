@@ -23,6 +23,7 @@ fun main() {
         ),
     )
     val testCases = Array(t) { readln().toCharArray() }
+    val results = mutableListOf<Int>()
 
     repeat(t) { i ->
         var direction = 0
@@ -59,6 +60,7 @@ fun main() {
 
         val rW = maxWidth - minWidth
         val rH = maxHeight - minHeight
-        println(rW.times(rH).absoluteValue)
+        results.add(rW.times(rH).absoluteValue)
     }
+    println(results.joinToString("\n"))
 }
