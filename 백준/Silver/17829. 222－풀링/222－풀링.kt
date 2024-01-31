@@ -2,7 +2,6 @@ import java.io.BufferedReader
 import java.io.BufferedWriter
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
-import java.util.LinkedList
 
 private val br = BufferedReader(InputStreamReader(System.`in`))
 private val bw = BufferedWriter(OutputStreamWriter(System.out))
@@ -17,28 +16,28 @@ fun main() {
     val n = br.readLine().toInt()
     val array = Array(n) { br.readLine().split(" ").map(String::toInt).toIntArray() }
 
-    val result = compress(array)
-    bw.write(result[0][0].toString())
-    bw.close()
-    br.close()
-}
-
-private fun compress(origin: Array<IntArray>): Array<IntArray> {
-    val n = origin.size
-    if (n == 1) return origin
-    val linear = LinkedList<Int>()
-    for (i in 0 until n step 2) {
-        for (j in 0 until n step 2) {
-            val temp = mutableListOf(origin[i][j])
+    fun divide(i: Int, j: Int, size: Int): Int {
+        val arr = IntArray(4)
+        if (size == 2) {
+            arr[0] = array[i][j]
             for (d in 0 until 3) {
                 val ni = i + dy[d]
                 val nj = j + dx[d]
-                temp.add(origin[ni][nj])
+                arr[d + 1] = array[ni][nj]
             }
-            temp.sort()
-            linear.add(temp[2])
+        } else {
+            val half = size / 2
+            arr[0] = divide(i, j, half)
+            arr[1] = divide(i, j + half, half)
+            arr[2] = divide(i + half, j + half, half)
+            arr[3] = divide(i + half, j, half)
         }
+        arr.sort()
+        return arr[2]
     }
-    val next = Array(n / 2) { IntArray(n / 2) { linear.poll()!! } }
-    return compress(next)
+
+    val result = divide(0, 0, n)
+    bw.write(result.toString())
+    bw.close()
+    br.close()
 }
