@@ -5,6 +5,7 @@ fun main() {
     // 같은 숫자 존재 가능
     // 숫자는 1111 - 9999
     val numbers = br.readLine().split(" ").joinToString("")
+    br.close()
     val clockNumber = numbers.makeClockNumber()
 
     var count = 0
@@ -17,17 +18,16 @@ fun main() {
         }
         count++
     }
-    br.close()
     bw.close()
 }
 
 private fun String.makeClockNumber(): Int {
-    val candidates = mutableListOf<Int>()
+    var min = 10000
     repeat(4) {
         val candidate = this.takeLast(4 - it) + this.take(it)
-        candidates.add(candidate.toInt())
+        min = minOf(min, candidate.toInt())
     }
-    return candidates.min()
+    return min
 }
 
 private fun Int.makeClockNumber() = this.toString().makeClockNumber()
