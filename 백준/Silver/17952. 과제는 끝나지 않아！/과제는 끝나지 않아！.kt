@@ -1,4 +1,3 @@
-import java.util.LinkedList
 import java.util.Stack
 
 private val br = System.`in`.bufferedReader()
@@ -6,16 +5,12 @@ private val bw = System.out.bufferedWriter()
 
 fun main() {
     val n = br.readLine().toInt()
-    val works = Array(n) {
-        br.readLine().split(" ").map(String::toInt).toIntArray()
-    }.toCollection(LinkedList())
     val desk = Stack<IntArray>()
 
-    var time = 0
     var score = 0
 
-    while (works.isNotEmpty()) {
-        val work = works.poll()!!
+    repeat(n) {
+        val work = br.readLine().split(" ").map(String::toInt).toIntArray()
         if (work[0] == 1) {
             if (--work[2] == 0) {
                 score += work[1]
@@ -33,7 +28,6 @@ fun main() {
                 }
             }
         }
-        time++
     }
 
     bw.write(score.toString())
